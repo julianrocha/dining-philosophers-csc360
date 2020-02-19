@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -g -Wall -Wno-deprecated-declarations -Werror -lpthreads
+CFLAGS := -Wall -lpthread -lrt
 
 all: diningOut
 
