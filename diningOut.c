@@ -8,15 +8,8 @@
 // each fork is a shared resource in the critical section
 
 #define N 5
-#define CLEAN 1
-#define DIRTY 0
 
-typedef struct chopstick {
-    int state;
-    sem_t held;
-} chopstick;
-
-chopstick chopsticks[N];
+sem_t chopsticks[N];
 pthread_t philosophers[N];
 int philo_numbers[N];
 
@@ -25,36 +18,41 @@ void* philosophical_loop(void* philo_num){
     size_t* temp = philo_num;
     int num = *temp;
 
-    if(num < N - 1){
-        sem_wait(&chopsticks[num + 1].held);
+    int left = (num - 1) % N;
+    if(left == -1){
+	left = N - 1;
     }
-    if(num == 0){
-        sem_wait(&chopsticks[N - 1].held);
-    }
-
-    sleep(4);
-
-    if(num > 0){
-        sem_wait(&chopsticks[num - 1].held);
-    }
+    int right = num;
+    int min = left < right ? left : right;
+    int max = left < right ? right : left;
 
     while(1){
-        printf("Philosoper %d is thinking...\n", num);
+	printf("Philosoper %d is thinking...\n", num);    
         sleep(1);
-        printf("Philosoper %d is hungry...\n", num);
+	printf("Philosoper %d is hungry...\n", num);
+	// Pickup lower ID chopstick
+	sem_wait(&chopsticks[min]);
+	printf("Philosoper %d picked up fork %d\n", num, min);
+	// Pickup higher ID chopstick
+	sem_wait(&chopsticks[max]);
+	printf("Philosopher %d picked up fork %d\n", num, max);
+	// Eat
         printf("Philosoper %d is eating...\n", num);
         sleep(1);
+	// Putdown both forks
+	sem_post(&chopsticks[min]);
+	printf("Philosoper %d put down fork %d\n", num, min);
+	sem_post(&chopsticks[max]);
+	printf("Philosopher %d put down fork %d\n", num, max);
     }
 }
   
   
 int main() { 
     int i;
-
     // initialize chopsticks (semaphores)
     for(i = 0; i < N; i++){
-        chopsticks[i].state = CLEAN;
-        int n = sem_init(&(chopsticks[i].held), 0, 1);
+        int n = sem_init(&(chopsticks[i]), 0, 1);
         if (n != 0) puts("sem_init failed");
     }
 

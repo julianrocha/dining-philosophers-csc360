@@ -1,5 +1,5 @@
 CC := gcc
-CFLAGS := -Wall -lpthread -lrt
+CFLAGS := -Wall -pthread
 
 all: diningOut
 

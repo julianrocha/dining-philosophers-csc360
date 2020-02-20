@@ -1,2 +1,3 @@
 # dining-philosophers-csc360
 C solution to the dining philosophers problem (https://en.wikipedia.org/wiki/Dining_philosophers_problem)
+Inspiration taken from the linked wikipedia page. This implementation takes the simple approach to a concurrent algorithm by implementing a resource hierarchy in the form of forks with ID's (Dijkstra's initial solution). I chose this approach because it is very simple to implement using pthreads and sempahores. The only real logic is determining which fork each philospoher should decide to pickup first. The rest is shared instructions of: pickup lower ID fork, pickup higher ID fork, eat, putdown both forks (any order), repeat. Initialize philosophers as threads and forks as semaphores.
