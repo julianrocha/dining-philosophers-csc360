@@ -1,0 +1,13 @@
+diff --git a/diningOut.c b/diningOut.c
+index 80f60a4..e78ef39 100644
+--- a/diningOut.c
++++ b/diningOut.c
+@@ -38,7 +38,7 @@ void* philosophical_loop(void* philo_num){
+        printf("Philosopher %d picked up fork %d\n", num, max);
+        // Eat
+         printf("Philosoper %d is eating...\n", num);
+-        sleep(1);
++        sleep(5);
+        // Putdown both forks
+        sem_post(&chopsticks[min]);
+        printf("Philosoper %d put down fork %d\n", num, min);

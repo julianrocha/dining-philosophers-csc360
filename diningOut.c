@@ -38,7 +38,7 @@ void* philosophical_loop(void* philo_num){
 	printf("Philosopher %d picked up fork %d\n", num, max);
 	// Eat
         printf("Philosoper %d is eating...\n", num);
-        sleep(1);
+        sleep(5);
 	// Putdown both forks
 	sem_post(&chopsticks[min]);
 	printf("Philosoper %d put down fork %d\n", num, min);
